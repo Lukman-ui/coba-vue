@@ -1,0 +1,8 @@
+{
+  "name": "coba-vue",
+  "compatibility_date": "2024-06-29",
+  "site": {
+    "bucket": "./dist",
+    "entry-point": "."
+  }
+}
