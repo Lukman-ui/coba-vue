@@ -16,6 +16,7 @@
     "vue-router": "^4.5.1"
   },
   "devDependencies": {
+    "@cloudflare/vite-plugin": "^1.7.5",
     "@eslint/js": "^9.29.0",
     "@vitejs/plugin-vue": "^6.0.0",
     "eslint": "^9.29.0",
@@ -24,7 +25,8 @@
     "globals": "^16.2.0",
     "npm-run-all2": "^8.0.4",
     "oxlint": "~1.1.0",
-    "vite": "npm:rolldown-vite@latest",
-    "vite-plugin-vue-devtools": "^7.7.7"
+    "vite": "^6.3.5",
+    "vite-plugin-vue-devtools": "^7.7.7",
+    "wrangler": "^4.22.0"
   }
 }
