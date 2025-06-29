@@ -1,5 +1,6 @@
 {
   "name": "coba-vue",
+  "main": "dist/worker.js",
   "compatibility_date": "2025-06-29",
   
 }
