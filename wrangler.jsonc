@@ -4,5 +4,13 @@
   "assets": {
     "binding": "ASSETS",
     "not_found_handling": "single-page-application"
-  }
+  },
+  "main": "./api/index.js",
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "coba-vue",
+      "database_id": "52a90f9f-1bdd-423c-a002-cf593216e6c6"
+    }
+  ]
 }
