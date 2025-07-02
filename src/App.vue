@@ -1,85 +1,109 @@
 <script setup>
-import { RouterLink, RouterView } from 'vue-router'
-import HelloWorld from './components/HelloWorld.vue'
+import { ref, onMounted } from 'vue'
+
+const pesanBaru = ref('')
+const daftarPesan = ref([])
+
+async function ambilPesan() {
+  try {
+    const res = await fetch('/api/messages')
+    const data = await res.json()
+    daftarPesan.value = data.map(d => `${d.name}: ${d.message}`)
+  } catch (e) {
+    console.error('Gagal ambil pesan:', e)
+  }
+}
+
+async function tambahPesan() {
+  if (pesanBaru.value.trim() !== '') {
+    try {
+      await fetch('/api/messages', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: 'User', // Bisa diganti dengan input nama kalau mau
+          message: pesanBaru.value.trim()
+        })
+      })
+      pesanBaru.value = ''
+      ambilPesan()
+    } catch (e) {
+      console.error('Gagal kirim pesan:', e)
+    }
+  }
+}
+
+function hapusPesan(index) {
+  daftarPesan.value.splice(index, 1)
+  // Note: kamu bisa tambahkan API untuk hapus dari DB juga, kalau mau
+}
+
+onMounted(ambilPesan)
 </script>
 
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-
-      <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
-      </nav>
+  <div class="pesan-board">
+    <h2>Daftar Pesan</h2>
+    <div class="form">
+      <input v-model="pesanBaru" placeholder="Tulis pesan..." />
+      <button @click="tambahPesan">Tambah</button>
     </div>
-  </header>
 
-  <RouterView />
+    <ul>
+      <li v-for="(pesan, index) in daftarPesan" :key="index">
+        {{ pesan }}
+        <button class="hapus" @click="hapusPesan(index)">Hapus</button>
+      </li>
+    </ul>
+  </div>
 </template>
 
 <style scoped>
-header {
-  line-height: 1.5;
-  max-height: 100vh;
+.pesan-board {
+  max-width: 400px;
+  margin: 30px auto;
+  padding: 20px;
+  background: #f9f9f9;
+  border-radius: 10px;
 }
 
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
+.form {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
 }
 
-nav {
-  width: 100%;
-  font-size: 12px;
-  text-align: center;
-  margin-top: 2rem;
+input {
+  flex: 1;
+  padding: 8px;
 }
 
-nav a.router-link-exact-active {
-  color: var(--color-text);
+button {
+  padding: 8px 12px;
+  cursor: pointer;
 }
 
-nav a.router-link-exact-active:hover {
-  background-color: transparent;
+ul {
+  list-style: none;
+  padding: 0;
 }
 
-nav a {
-  display: inline-block;
-  padding: 0 1rem;
-  border-left: 1px solid var(--color-border);
+li {
+  background: #eee;
+  margin-bottom: 10px;
+  padding: 10px;
+  border-radius: 5px;
+  position: relative;
 }
 
-nav a:first-of-type {
-  border: 0;
-}
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
-
-  nav {
-    text-align: left;
-    margin-left: -1rem;
-    font-size: 1rem;
-
-    padding: 1rem 0;
-    margin-top: 1rem;
-  }
+.hapus {
+  position: absolute;
+  right: 10px;
+  top: 8px;
+  background: red;
+  color: white;
+  border: none;
+  padding: 4px 8px;
+  border-radius: 3px;
 }
 </style>

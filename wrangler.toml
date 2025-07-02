@@ -1,0 +1,11 @@
+name = "coba-vue"
+compatibility_date = "2025-06-29"
+main = "api/index.js"
+
+[site]
+bucket = "./dist" # jika ada frontend Vue
+
+[[d1_databases]]
+binding = "DB"
+database_name = "coba-vue"
+database_id = "35b8795e-af46-40f8-bc38-3432f5fddfb1"
